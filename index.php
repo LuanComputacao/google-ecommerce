@@ -43,47 +43,15 @@
 
 <div class="container" style="margin-top: 20px;">
     <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-            <div class="thumbnail" data-ec="true" data-ec-id="111" data-ec-name="NAME" data-ec-price="1.00" data-ec-category="CATEGORY" data-ec-brand="BRAND" data-ec-variant="VARIANT" data-ec-list="LIST" data-ec-position="POSITION" data-ec-dimension="DIMENSION">
-                <img src="http://lorempixel.com/400/400/" alt="" class="img-responsive"/>
-                <a href="#" class="btn btn-primary btn-block btn-xs" data-ec-click="addCard" data-ec-id="1"> Adicionar ao carrinho </a>
+        <?php $i = 0; ?>
+        <?php for ($i=1; $i<=24; $i++) { ?>
+            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
+                <div class="thumbnail" data-ec="true" data-ec-id="<?php echo $i?>" data-ec-name="NAME <?php echo $i?>" data-ec-price="<?php echo $i?>.00" data-ec-category="CATEGORY <?php echo $i?>" data-ec-brand="BRAND <?php echo $i?>" data-ec-variant="VARIANT <?php echo $i?>" data-ec-list="LIST" data-ec-position="<?php echo $i?>" data-ec-dimension="DIMENSION <?php echo $i?>">
+                    <img src="http://lorempixel.com/400/400/" alt="" class="img-responsive"/>
+                    <a href="#" class="btn btn-primary btn-block btn-xs" data-ec-click="addCard" data-ec-id="<?php echo $i?>"> Adicionar ao carrinho </a>
+                </div>
             </div>
-        </div>
-
-        <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-            <div class="thumbnail" data-ec="true" data-ec-id="222" data-ec-name="NAME" data-ec-price="2.00" data-ec-category="CATEGORY" data-ec-brand="BRAND" data-ec-variant="VARIANT" data-ec-list="LIST" data-ec-position="POSITION" data-ec-dimension="DIMENSION">
-                <img src="http://lorempixel.com/400/400/" alt="" class="img-responsive"/>
-                <a href="#" class="btn btn-primary btn-block btn-xs" data-ec-click="addCard" data-ec-id="2"> Adicionar ao carrinho </a>
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-            <div class="thumbnail" data-ec="true" data-ec-id="333" data-ec-name="NAME" data-ec-price="3.00" data-ec-category="CATEGORY" data-ec-brand="BRAND" data-ec-variant="VARIANT" data-ec-list="LIST" data-ec-position="POSITION" data-ec-dimension="DIMENSION">
-                <img src="http://lorempixel.com/400/400/" alt="" class="img-responsive"/>
-                <a href="#" class="btn btn-primary btn-block btn-xs" data-ec-click="addCard" data-ec-id="3"> Adicionar ao carrinho </a>
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-            <div class="thumbnail" data-ec="true" data-ec-id="444" data-ec-name="NAME" data-ec-price="4.00" data-ec-category="CATEGORY" data-ec-brand="BRAND" data-ec-variant="VARIANT" data-ec-list="LIST" data-ec-position="POSITION" data-ec-dimension="DIMENSION">
-                <img src="http://lorempixel.com/400/400/" alt="" class="img-responsive"/>
-                <a href="#" class="btn btn-primary btn-block btn-xs" data-ec-click="addCard" data-ec-id="4"> Adicionar ao carrinho </a>
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-            <div class="thumbnail" data-ec="true" data-ec-id="555" data-ec-name="NAME" data-ec-price="5.00" data-ec-category="CATEGORY" data-ec-brand="BRAND" data-ec-variant="VARIANT" data-ec-list="LIST" data-ec-position="POSITION" data-ec-dimension="DIMENSION">
-                <img src="http://lorempixel.com/400/400/" alt="" class="img-responsive"/>
-                <a href="#" class="btn btn-primary btn-block btn-xs" data-ec-click="addCard" data-ec-id="5"> Adicionar ao carrinho </a>
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-            <div class="thumbnail" data-ec="true" data-ec-id="666" data-ec-name="NAME" data-ec-price="6.00" data-ec-category="CATEGORY" data-ec-brand="BRAND" data-ec-variant="VARIANT" data-ec-list="LIST" data-ec-position="POSITION" data-ec-dimension="DIMENSION">
-                <img src="http://lorempixel.com/400/400/" alt="" class="img-responsive"/>
-                <a href="#" class="btn btn-primary btn-block btn-xs" data-ec-click="addCard" data-ec-id="6"> Adicionar ao carrinho </a>
-            </div>
-        </div>
+        <?php } ?>
     </div>
 </div>
 

@@ -31,7 +31,7 @@
                     'dimension1': element.data('ec-dimension')
                 });
 
-                ga("ec:setAction", "clickbitch", {"list": element.data('ec-list')});
+                ga("ec:setAction", "click", {"list": element.data('ec-list')});
                 ga("send", "event", "homepage", "click", "");
             },
             addCart: function (element) {
