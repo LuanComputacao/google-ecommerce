@@ -99,6 +99,12 @@
     };
 
     ga('require', 'ec');
+
     $('[data-ec=true]').googleEcommerce();
-    ga('send', 'pageview');
+
+    if (dataECPageView || dataECPageView != "") {
+        ga('send', 'pageview', dataECPageView);
+    } else {
+        ga('send', 'pageview');
+    }
 }(jQuery));

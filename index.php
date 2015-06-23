@@ -34,7 +34,8 @@
             m.parentNode.insertBefore(a, m)
         })(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga');
 
-        ga('create', 'UA-60911933-1', 'auto');
+        ga('create', 'UA-########-#', 'auto');
+        dataECPageView = window.location.pathname;
     </script>
     <!-- End Google Analytics -->
 </head>
