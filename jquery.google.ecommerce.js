@@ -102,8 +102,12 @@
 
     $('[data-ec=true]').googleEcommerce();
 
-    if (dataECPageView || dataECPageView != "") {
-        ga('send', 'pageview', dataECPageView);
+    if (typeof dataECPageView !== 'undefined') {
+        if (dataECPageView != "") {
+            ga('send', 'pageview', dataECPageView);
+        } else {
+            ga('send', 'pageview');
+        }
     } else {
         ga('send', 'pageview');
     }
