@@ -200,7 +200,7 @@ dadosEcomerceAvancado = {};
 
     };
 
-    //ga('require', 'ec');
+    ga('require', 'ec');
 
     $('[data-ec=true]').googleEcommerce();
 
