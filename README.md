@@ -8,11 +8,8 @@ jquery for google eCommerce
 1.  If you already have a code implemented. Exclude the following lines:
 
     ```html
-      <script>
-      ...
       ga('require', 'ec');
       ga('send', 'pageview');
-      </script>
     ```
 
 2. After include a version of jquery in your code before this plugin. As this:
