@@ -110,17 +110,6 @@ dadosEcomerceAvancado = {};
 
                     if (sizeJsonDataImpression > maxSize) {
                         throw "Ooops! You have big data in this page";
-
-                        var numberSlices = Math.floor(jsonDataImpression.length / (sizeJsonDataImpression / maxSize));
-                        var slice = 1;
-                        while (jsonDataImpression.length > 0) {
-                            var sliceToSend = jsonDataImpression.splice(0, numberSlices);
-                            for (var i = 0; i < sliceToSend.length; i++) {
-                                ga("ec:addImpression", sliceToSend[i]);
-                            }
-                            methods.sendPageView(slice);
-                            slice++;
-                        }
                     } else {
                         for (i = 0; i < jsonDataImpression.length; i++) {
                             ga('ec:addImpression', jsonDataImpression[i]);
@@ -179,12 +168,10 @@ dadosEcomerceAvancado = {};
                 ga("ec:setAction", "remove");
                 ga("send", "event", "detail view", "click", "removeFromCart");
             },
-            sendPageView: function (slice) {
-                //if you're sending big data, you can see the id of slice of page
-                var sliceQuery = "?slice=" + slice || "";
+            sendPageView: function () {
                 if (typeof dataECPageView !== 'undefined') {
                     if (dataECPageView != "") {
-                        ga('send', 'pageview', dataECPageView + sliceQuery);
+                        ga('send', 'pageview', dataECPageView);
                     } else {
                         ga('send', 'pageview');
                     }
