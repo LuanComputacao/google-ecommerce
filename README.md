@@ -28,21 +28,21 @@ jquery for google eCommerce
 #Optional
 When you want send a specific route to pageview search this code
 
-    ```javascript
-        ga('create', 'UA-6########-#', 'auto');
-    ```
+```javascript
+    ga('create', 'UA-6########-#', 'auto');
+```
 
 and include this variable after with your route
 
-    ```javascript
-        dataECPageView = "route_to_my_product_list;
-    ```
+```javascript
+    dataECPageView = "route_to_my_product_list;
+```
 
 as example
 
-    ```javascript
-        ...
-        ga('create', 'UA-########-#', 'auto');
-        dataECPageView = window.location.pathname;
-    ```
+```javascript
+    ...
+    ga('create', 'UA-########-#', 'auto');
+    dataECPageView = window.location.pathname;
+```
  
