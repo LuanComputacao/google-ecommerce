@@ -22,7 +22,7 @@ jquery for google eCommerce
         </body>
     ```
 
-3.   So, put _jquery.google.ecommerce.js_ in your _<your_public_path_to_plugins>_.
+3.   So, put _jquery.google.ecommerce.js_ in your _your_public_path_to_plugins_.
 
 
 #Optional
