@@ -57,7 +57,7 @@
                      data-ec-variant="VARIANT <?php echo $i ?>"
                      data-ec-list="LIST"
                      data-ec-position="<?php echo $i ?>"
-                     data-ec-dimension="DIMENSION <?php echo $i ?>"
+                     data-ec-dimension="DIMENSION <?php echo md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) . md5($i) ?>"
                     >
                     <img src="http://lorempixel.com/400/400/" alt="" class="img-responsive"/>
                     <a href="#" class="btn btn-primary btn-block btn-xs"
@@ -72,8 +72,8 @@
     </div>
 </div>
 
-<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="jquery.google.ecommerce.js"></script>
 </body>
 </html>

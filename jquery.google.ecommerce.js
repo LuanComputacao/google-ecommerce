@@ -9,6 +9,15 @@ dadosEcomerceAvancado = {};
         }
 
         var methods = {
+            checkTipeOf: function (element) {
+                try {
+                    if ((typeof element.data('ec-position')) != 'number') throw "Ooops! Look at this. This is a number? " + element.data('ec-position') + " tipe: " + (typeof element.data('ec-position'));
+                    return true
+                } catch (err) {
+                    console.error(err);
+                    return false
+                }
+            },
             sizeOf: function (object) { // Calcula o tamanho do objeto de dados para ser enviado junto com o pageview
 
                 // initialise the list of objects and size
@@ -71,42 +80,55 @@ dadosEcomerceAvancado = {};
             },
             getImpression: function (element) {
                 //captura todas as impresssões da página e armazena para futuro envio.
-                data.push({
-                    'id': element.data('ec-id'),
-                    'name': element.data('ec-name'),
-                    'category': element.data('ec-category'),
-                    'brand': element.data('ec-brand'),
-                    'variant': element.data('ec-variant'),
-                    'list': element.data('ec-list'),
-                    'position': element.data('ec-position'),
-                    'dimension1': element.data('ec-dimension')
-                })
+                if (methods.checkTipeOf(element)) {
+                    data.push({
+                        'id': element.data('ec-id') + '',
+                        'name': element.data('ec-name') + '',
+                        'category': element.data('ec-category') + '',
+                        'brand': element.data('ec-brand') + '',
+                        'variant': element.data('ec-variant') + '',
+                        'list': element.data('ec-list') + '',
+                        'position': element.data('ec-position'),
+                        'dimension1': element.data('ec-dimension') + ''
+                    })
+                } else {
+
+                }
+
+
             },
             impression: function (jsonDataImpression) {
 
                 maxSize = 8000;
                 sizeJsonDataImpression = methods.sizeOf(jsonDataImpression);
-                lengthJsonDataImpression =jsonDataImpression.length;
 
                 /*  Cada pageview pode ser enviado com o tamanho máximo de 8KB. Aqui faz a checagem do tamanho máximo,
                  caso seja maior que o limite, divide os itens em conjuntos aceitaveis e os envia como pageviews
                  separados.
                  */
-                if (sizeJsonDataImpression > maxSize) {
-                    var numberSlices = lengthJsonDataImpression / (sizeJsonDataImpression / maxSize);
+                try {
 
-                    while (jsonDataImpression.length > 0) {
-                        var sliceToSend = jsonDataImpression.splice(0, numberSlices);
-                        for (i = 0; i < sliceToSend.length; i++) {
-                            ga("ec:addImpression", sliceToSend[i]);
+                    if (sizeJsonDataImpression > maxSize) {
+                        throw "Ooops! You have big data in this page";
+
+                        var numberSlices = Math.floor(jsonDataImpression.length / (sizeJsonDataImpression / maxSize));
+                        var slice = 1;
+                        while (jsonDataImpression.length > 0) {
+                            var sliceToSend = jsonDataImpression.splice(0, numberSlices);
+                            for (var i = 0; i < sliceToSend.length; i++) {
+                                ga("ec:addImpression", sliceToSend[i]);
+                            }
+                            methods.sendPageView(slice);
+                            slice++;
                         }
+                    } else {
+                        for (i = 0; i < jsonDataImpression.length; i++) {
+                            ga('ec:addImpression', jsonDataImpression[i]);
+                        }
+                        methods.sendPageView();
                     }
-                    methods.sendPageView();
-                } else {
-                    for (i = 0; i < jsonDataImpression.length; i++) {
-                        ga("ec:addImpression", jsonDataImpression[i]);
-                    }
-                    methods.sendPageView();
+                } catch (err) {
+                    console.error(err);
                 }
             },
             click: function (element) {
@@ -157,10 +179,12 @@ dadosEcomerceAvancado = {};
                 ga("ec:setAction", "remove");
                 ga("send", "event", "detail view", "click", "removeFromCart");
             },
-            sendPageView: function () {
+            sendPageView: function (slice) {
+                //if you're sending big data, you can see the id of slice of page
+                var sliceQuery = "?slice=" + slice || "";
                 if (typeof dataECPageView !== 'undefined') {
                     if (dataECPageView != "") {
-                        ga('send', 'pageview', dataECPageView);
+                        ga('send', 'pageview', dataECPageView + sliceQuery);
                     } else {
                         ga('send', 'pageview');
                     }
@@ -197,7 +221,6 @@ dadosEcomerceAvancado = {};
             });
         });
         methods.impression(data);
-
     };
 
     ga('require', 'ec');
