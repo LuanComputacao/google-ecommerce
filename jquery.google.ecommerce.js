@@ -109,7 +109,7 @@ dadosEcomerceAvancado = {};
                 try {
 
                     if (sizeJsonDataImpression > maxSize) {
-                        throw "Ooops! You have big data in this page";
+                        throw "Ooops! You have a lot of data on this page";
                     } else {
                         for (i = 0; i < jsonDataImpression.length; i++) {
                             ga('ec:addImpression', jsonDataImpression[i]);
