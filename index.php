@@ -46,26 +46,43 @@
 <div class="container" style="margin-top: 20px;">
     <div class="row">
         <?php $i = 0; ?>
-        <?php for ($i = 1; $i <= 24; $i++) { ?>
+        <?php for ($i = 1;
+                   $i <= 24;
+                   $i++) { ?>
             <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
-                <div class="thumbnail" data-ec="true"
-                     data-ec-id="<?php echo $i ?>"
-                     data-ec-name="NAME <?php echo $i ?>"
-                     data-ec-price="<?php echo $i ?>.00"
-                     data-ec-category="CATEGORY <?php echo $i ?>"
-                     data-ec-brand="BRAND <?php echo $i ?>"
-                     data-ec-variant="VARIANT <?php echo $i ?>"
-                     data-ec-list="LIST"
-                     data-ec-position="<?php echo $i ?>"
-                     data-ec-dimension="DIMENSION <?php echo $i ?>"
-                    >
-                    <img src="http://lorempixel.com/400/400/" alt="" class="img-responsive"/>
-                    <a href="#" class="btn btn-primary btn-block btn-xs"
-                       data-ec-click="addCard"
-                       data-ec-id="<?php echo $i ?>"
+                <div class="thumbnail">
+                    <div class="thumbnail"
+                         data-ec="true"
+                         data-ec-id="<?php echo $i ?>"
+                         data-ec-name="NAME <?php echo $i ?>"
+                         data-ec-price="<?php echo $i ?>.00"
+                         data-ec-category="CATEGORY <?php echo $i ?>"
+                         data-ec-brand="BRAND <?php echo $i ?>"
+                         data-ec-variant="VARIANT <?php echo $i ?>"
+                         data-ec-list="LIST"
+                         data-ec-position="<?php echo $i ?>"
+                         data-ec-dimension="DIMENSION <?php echo $i ?>"
                         >
-                        Adicionar ao carrinho
-                    </a>
+                        <img src="http://lorempixel.com/400/400/" alt="" class="img-responsive"/>
+                        <a href="#" class="btn btn-info btn-block btn-xs"
+                           data-ec-id="<?php echo $i ?>"
+                           data-ec-click="viewDetails"
+                            >
+                            Detalhes do produto
+                        </a>
+                        <a href="#" class="btn btn-success btn-block btn-xs"
+                           data-ec-click="addCard"
+                           data-ec-id="<?php echo $i ?>"
+                            >
+                            Adicionar o carrinho
+                        </a>
+                        <a href="#" class="btn btn-danger btn-block btn-xs"
+                           data-ec-click="removeCard"
+                           data-ec-id="<?php echo $i ?>"
+                            >
+                            Remover do carrinho
+                        </a>
+                    </div>
                 </div>
             </div>
         <?php } ?>

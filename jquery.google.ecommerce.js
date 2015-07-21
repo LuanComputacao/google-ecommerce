@@ -7,8 +7,7 @@ dadosEcomerceAvancado = {};
         if (settings) {
             $.extend(config, settings);
         }
-
-        var methods = {
+        var utils = {
             checkTipeOf: function (element) {
                 try {
                     if ((typeof element.data('ec-position')) != 'number') throw "Ooops! Look at this. This is a number? " + element.data('ec-position') + " tipe: " + (typeof element.data('ec-position'));
@@ -78,38 +77,70 @@ dadosEcomerceAvancado = {};
                 return size;
 
             },
+            addActionClick: function (element) {
+                //cria um objeto a partir da busca pelo elemento para funcionar o
+                // on('click',func(){})
+                oElement = $('[data-ec-click][data-ec-id=' + element.data('ec-id') + ']');
+
+                oElement.on('click', function (e) {
+                    e.stopPropagation();
+
+                    switch ($(this).data('ec-click')) {
+                        case 'viewDetails':
+                            methods.click(element);
+                            break;
+
+                        case 'addCard':
+                            methods.addCart(element);
+                            break;
+
+                        case 'removeCard':
+                            methods.removeCart(element);
+                            break;
+                    }
+
+                    $('[data-ec-click]').attr('disabled', false);
+                });
+            },
+            createImpressions: function (element) {
+                element.each(function () {
+                    var element = $(this);
+
+                    methods.getImpression(element);
+                    element.on('click', function (e) {
+                        e.stopPropagation();
+                    });
+                });
+            }
+        };
+
+        /** Funções do Plugin **/
+        var methods = {
             getImpression: function (element) {
                 //captura todas as impresssões da página e armazena para futuro envio.
-                if (methods.checkTipeOf(element)) {
+                if (utils.checkTipeOf(element)) {
                     data.push({
                         'id': element.data('ec-id') + '',
                         'name': element.data('ec-name') + '',
-                        'category': element.data('ec-category') + '',
                         'brand': element.data('ec-brand') + '',
                         'variant': element.data('ec-variant') + '',
                         'list': element.data('ec-list') + '',
-                        'position': element.data('ec-position'),
-                        'dimension1': element.data('ec-dimension') + ''
+                        'position': element.data('ec-position')
                     })
-                } else {
-
                 }
-
-
             },
             impression: function (jsonDataImpression) {
 
                 maxSize = 8000;
-                sizeJsonDataImpression = methods.sizeOf(jsonDataImpression);
+                sizeJsonDataImpression = utils.sizeOf(jsonDataImpression);
 
                 /*  Cada pageview pode ser enviado com o tamanho máximo de 8KB. Aqui faz a checagem do tamanho máximo,
                  caso seja maior que o limite, divide os itens em conjuntos aceitaveis e os envia como pageviews
                  separados.
                  */
                 try {
-
                     if (sizeJsonDataImpression > maxSize) {
-                        throw "Ooops! You have a lot of data on this page";
+                        throw "Ooops! You have a lot of data on this page!";
                     } else {
                         for (i = 0; i < jsonDataImpression.length; i++) {
                             ga('ec:addImpression', jsonDataImpression[i]);
@@ -133,7 +164,7 @@ dadosEcomerceAvancado = {};
                 });
 
                 ga("ec:setAction", "click", {"list": element.data('ec-list')});
-                ga("send", "event", "homepage", "click", "");
+                ga("send", "event", "Ecommerce", "click", element.data('ec-name'));
             },
             addCart: function (element) {
                 ga("ec:addProduct", {
@@ -150,7 +181,7 @@ dadosEcomerceAvancado = {};
                 });
 
                 ga("ec:setAction", "add", {"list": element.data('ec-list')});
-                ga("send", "event", "detail view", "click", "addToCart");
+                ga("send", "event", "Ecommerce", "addToCart", element.data('ec-name'));
             },
             removeCart: function (element) {
                 ga("ec:addProduct", {
@@ -166,7 +197,7 @@ dadosEcomerceAvancado = {};
                 });
 
                 ga("ec:setAction", "remove");
-                ga("send", "event", "detail view", "click", "removeFromCart");
+                ga("send", "event", "Ecommerce", "RemoveFromCart", element.data('ec-name'));
             },
             sendPageView: function () {
                 if (typeof dataECPageView !== 'undefined') {
@@ -181,33 +212,17 @@ dadosEcomerceAvancado = {};
             }
         };
 
-        $('[data-ec-click]').on('click', function (e) {
-            var element = $('[data-ec-id="' + $(this).data('ec-id') + '"]')
-            e.stopPropagation();
-
-            switch ($(this).data('ec-click')) {
-                case 'addCard':
-                    methods.addCart(element);
-                    break;
-
-                case 'removeCard':
-                    methods.removeCart(element);
-                    break;
-            }
-
-            $('[data-ec-click]').attr('disabled', false);
-        });
-
-        this.each(function () {
-            var element = $(this);
-
-            methods.getImpression(element);
-            element.on('click', function (e) {
-                methods.click(element);
-                e.stopPropagation();
-            });
-        });
-        methods.impression(data);
+        /** Casos de aplicação do plugin**/
+        switch (settings) {
+            case "click": //alternativa para elementos criados após o carregamento da página. Ex: carregados por Ajax
+                utils.addActionClick(this);
+                break;
+            default :
+                utils.addActionClick(this);
+                utils.createImpressions(this);
+                methods.impression(data);
+                break;
+        }
     };
 
     ga('require', 'ec');
