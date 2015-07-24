@@ -1,13 +1,47 @@
 dadosEcomerceAvancado = {};
 (function ($) {
     jQuery.fn.googleEcommerce = function (settings) {
+        this.click(function () {
+            console.log('clicked');
+        });
         var config = {};
         var data = [];
 
         if (settings) {
             $.extend(config, settings);
         }
+
+        /**
+         * Métodos adicionais para automação do plugin
+         */
         var utils = {
+            selectActionByTypePage: function(ecElement){
+                console.log(ecElement.data('ec-type'));
+                switch (ecElement.data('ec-type')) {
+                    case 'viewProduct':
+                        console.log('viewProduct');
+                        utils.addActionClick(ecElement);
+                        methodsEC.sendPageView();
+                        break;
+                    case 'list':
+                        console.log('list');
+                        utils.addActionClick(ecElement);
+                        utils.createImpressions(ecElement);
+                        methodsEC.impression(datecElementa);
+                        methodsEC.sendPageView();
+                        break;
+                    case 'cart':
+                        console.log('cart');
+                        break;
+                    default :
+                        console.log('default');
+                        utils.addActionClick(ecElement);
+                        utils.createImpressions(ecElement);
+                        methodsEC.impression(data);
+                        methodsEC.sendPageView();
+                        break;
+                }
+            },
             checkTipeOf: function (element) {
                 try {
                     if ((typeof element.data('ec-position')) != 'number') throw "Ooops! Look at this. This is a number? " + element.data('ec-position') + " tipe: " + (typeof element.data('ec-position'));
@@ -78,7 +112,7 @@ dadosEcomerceAvancado = {};
 
             },
             addActionClick: function (element) {
-                //cria um objeto a partir da busca pelo elemento para funcionar o
+                //Cria um objeto a partir da busca pelo elemento para funcionar o
                 // on('click',func(){})
                 oElement = $('[data-ec-click][data-ec-id=' + element.data('ec-id') + ']');
 
@@ -87,15 +121,15 @@ dadosEcomerceAvancado = {};
 
                     switch ($(this).data('ec-click')) {
                         case 'viewDetails':
-                            methods.click(element);
+                            methodsEC.click(element);
                             break;
 
                         case 'addCard':
-                            methods.addCart(element);
+                            methodsEC.addCart(element);
                             break;
 
                         case 'removeCard':
-                            methods.removeCart(element);
+                            methodsEC.removeCart(element);
                             break;
                     }
 
@@ -106,16 +140,12 @@ dadosEcomerceAvancado = {};
                 element.each(function () {
                     var element = $(this);
 
-                    methods.getImpression(element);
+                    utils.getImpression(element);
                     element.on('click', function (e) {
                         e.stopPropagation();
                     });
                 });
-            }
-        };
-
-        /** Funções do Plugin **/
-        var methods = {
+            },
             getImpression: function (element) {
                 //captura todas as impresssões da página e armazena para futuro envio.
                 if (utils.checkTipeOf(element)) {
@@ -128,7 +158,15 @@ dadosEcomerceAvancado = {};
                         'position': element.data('ec-position')
                     })
                 }
-            },
+            }
+        };
+
+        /**
+         * Métodos do Google Enhanced Ecommerce
+         * @type {{impression: Function, click: Function, addCart: Function, removeCart: Function, sendPageView: Function}}
+         */
+        var methodsEC = {
+
             impression: function (jsonDataImpression) {
 
                 maxSize = 8000;
@@ -145,7 +183,6 @@ dadosEcomerceAvancado = {};
                         for (i = 0; i < jsonDataImpression.length; i++) {
                             ga('ec:addImpression', jsonDataImpression[i]);
                         }
-                        methods.sendPageView();
                     }
                 } catch (err) {
                     console.error(err);
@@ -180,7 +217,11 @@ dadosEcomerceAvancado = {};
                     "quantity": element.data('ec-quantity')
                 });
 
-                ga("ec:setAction", "add", {"list": element.data('ec-list')});
+                if(element.data('ec-list') != "") {
+                    ga("ec:setAction", "add", {"list": element.data('ec-list')});
+                } else {
+                    ga("ec:setAction", "add", {"list": element.data('ec-list')});
+                }
                 ga("send", "event", "Ecommerce", "addToCart", element.data('ec-name'));
             },
             removeCart: function (element) {
@@ -212,15 +253,15 @@ dadosEcomerceAvancado = {};
             }
         };
 
-        /** Casos de aplicação do plugin**/
+        /**
+         * Casos de aplicação do plugin
+         */
         switch (settings) {
             case "click": //alternativa para elementos criados após o carregamento da página. Ex: carregados por Ajax
                 utils.addActionClick(this);
                 break;
             default :
-                utils.addActionClick(this);
-                utils.createImpressions(this);
-                methods.impression(data);
+                utils.selectActionByTypePage(this);
                 break;
         }
     };
